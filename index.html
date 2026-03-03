@@ -8,17 +8,26 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        /* Custom scrollbar for the table area to match the look */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
 </head>
 <body class="bg-slate-50">
     <div id="root"></div>
 
     <script type="text/babel">
-        // A simple card that doesn't rely on external icon libraries
-        const KpiCard = ({ title, value, colorClass, bgColor }) => (
-            <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm transition-all">
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">{title}</p>
-                <p className={`text-3xl font-bold mt-2 ${colorClass}`}>{value}</p>
-                <div className={`mt-2 h-1 w-8 rounded ${bgColor}`}></div>
+        const KpiCard = ({ title, value, colorClass, bgColor, iconLabel }) => (
+            <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex justify-between items-start">
+                <div>
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">{title}</p>
+                    <p className="text-3xl font-bold text-slate-800 mt-1">{value}</p>
+                </div>
+                <div className={`p-2 rounded-lg ${bgColor} ${colorClass} text-xs font-bold uppercase`}>
+                    {iconLabel}
+                </div>
             </div>
         );
 
@@ -26,77 +35,130 @@
             const stats = {
                 reqsProvided: 30,
                 candidatesSubmitted: 42,
-                candidatesRejected: 27,
                 candidatesInProgress: 14,
+                candidatesRejected: 27,
                 candidatesHired: 1
             };
 
             const allReqs = [
-                { id: '251083', title: 'Staff Full Stack Software Engineer', location: 'Austin, TX', candidates: 4, hired: 0 },
-                { id: '260165', title: 'Staff Software Engineer (Hive)', location: 'Poland', candidates: 1, hired: 1 },
-                // Add more data here later
+                { id: '251083', title: 'Staff Full Stack Software Engineer...', location: 'US-Texas-Austin', candidates: 4, inProgress: 0, rejected: 4, hired: 0 },
+                { id: '251090', title: 'Staff Software Engineer, Storage', location: 'Hungary-Remote', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
+                { id: '251203', title: 'Staff Performance Engineer', location: 'Hungary-Budapest', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
+                { id: '251251', title: 'Staff Software Engineer', location: 'US-Texas-Austin', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
+                { id: '251252', title: 'Senior Software Engineer', location: 'US-Texas-Austin', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
+                { id: '251276', title: 'Senior Staff Software Engineer - Control Plane', location: 'US-Georgia-Remote', candidates: 2, inProgress: 2, rejected: 0, hired: 0 },
+                { id: '251367', title: 'Senior Software Engineer - Fullstack', location: 'India-Bangalore', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
+                { id: '251368', title: 'Senior Staff Engineer', location: 'US-California-Remote', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
+                { id: '251403', title: 'Senior Staff Software Engineer (Impala...)', location: 'Hungary-Budapest', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
+                { id: '251445', title: 'Staff Software Engineer', location: 'India-Bangalore', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
+                { id: '251460', title: 'Staff Full Stack Software Engineer, ML...', location: 'Hungary-Budapest', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
+                { id: '251464', title: 'Senior Software Engineer - SDX...', location: 'India-Bangalore', candidates: 2, inProgress: 1, rejected: 1, hired: 0 },
+                { id: '251474', title: 'Senior Software Engineer - Data Engineering', location: 'Hungary-Remote', candidates: 2, inProgress: 1, rejected: 1, hired: 0 },
+                { id: '251529', title: 'Staff Software Engineer - Product Security', location: 'India-Bangalore', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
+                { id: '260066', title: 'Staff Software Engineer, Operator', location: 'Hungary-Remote', candidates: 8, inProgress: 0, rejected: 8, hired: 0 },
+                { id: '260163', title: 'Staff Software Engineer (Hive)', location: 'Hungary-Remote', candidates: 10, inProgress: 1, rejected: 9, hired: 0 },
+                { id: '260165', title: 'Staff Software Engineer (Hive)', location: 'Poland', candidates: 1, inProgress: 0, rejected: 0, hired: 1 },
             ];
 
             return (
                 <div className="min-h-screen pb-12 font-sans text-slate-900">
-                    <header className="bg-white border-b border-slate-200 p-6 shadow-sm">
+                    <header className="bg-white border-b border-slate-200 p-6">
                         <div className="max-w-7xl mx-auto flex justify-between items-center">
-                            <div>
-                                <h1 className="text-2xl font-black tracking-tight text-blue-600">RECRUITMENT PORTAL</h1>
-                                <p className="text-sm font-medium text-slate-500">Cloudera & BairesDev Dashboard</p>
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-600 p-2 rounded-lg text-white font-bold text-xl leading-none">📊</div>
+                                <div>
+                                    <h1 className="text-xl font-bold text-slate-800">Partner Recruitment Portal</h1>
+                                    <p className="text-sm text-slate-500">Cloudera & BairesDev</p>
+                                </div>
                             </div>
-                            <div className="bg-slate-100 px-4 py-2 rounded-full text-xs font-bold text-slate-600 uppercase">March 2026</div>
+                            <div className="bg-slate-100 px-4 py-2 rounded-full text-xs font-bold text-slate-500">Updated: March 2026</div>
                         </div>
                     </header>
 
-                    <main className="max-w-7xl mx-auto px-6 mt-10 space-y-10">
+                    <main className="max-w-7xl mx-auto px-6 mt-10 space-y-8">
                         {/* KPI SECTION */}
-                        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                            <KpiCard title="Requisitions" value={stats.reqsProvided} colorClass="text-slate-800" bgColor="bg-slate-800" />
-                            <KpiCard title="Submitted" value={stats.candidatesSubmitted} colorClass="text-blue-600" bgColor="bg-blue-600" />
-                            <KpiCard title="In Progress" value={stats.candidatesInProgress} colorClass="text-amber-500" bgColor="bg-amber-500" />
-                            <KpiCard title="Rejected" value={stats.candidatesRejected} colorClass="text-red-500" bgColor="bg-red-500" />
-                            <KpiCard title="Hired" value={stats.candidatesHired} colorClass="text-emerald-500" bgColor="bg-emerald-500" />
+                        <div>
+                            <h2 className="text-sm font-bold text-slate-800 mb-4 uppercase tracking-tight">Overview Metrics</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                                <KpiCard title="Reqs Provided" value={stats.reqsProvided} colorClass="text-indigo-600" bgColor="bg-indigo-50" iconLabel="Req" />
+                                <KpiCard title="Total Submitted" value={stats.candidatesSubmitted} colorClass="text-blue-600" bgColor="bg-blue-50" iconLabel="All" />
+                                <KpiCard title="In Progress" value={stats.candidatesInProgress} colorClass="text-amber-500" bgColor="bg-amber-50" iconLabel="⏳" />
+                                <KpiCard title="Rejected" value={stats.candidatesRejected} colorClass="text-red-500" bgColor="bg-red-50" iconLabel="✕" />
+                                <KpiCard title="Hired" value={stats.candidatesHired} colorClass="text-emerald-500" bgColor="bg-emerald-50" iconLabel="🏆" />
+                            </div>
                         </div>
 
                         {/* PIPELINE SECTION */}
-                        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm">
-                            <h2 className="text-xl font-bold mb-6">Candidate Pipeline Distribution</h2>
-                            <div className="h-14 w-full flex rounded-xl overflow-hidden shadow-inner bg-slate-100">
-                                <div className="bg-red-500 flex items-center justify-center text-white text-xs font-bold" style={{ width: '64%' }}>64% REJECTED</div>
-                                <div className="bg-amber-400 flex items-center justify-center text-amber-900 text-xs font-bold" style={{ width: '33%' }}>33% ACTIVE</div>
-                                <div className="bg-emerald-500 flex items-center justify-center text-white text-xs font-bold" style={{ width: '3%' }}>3% HIRED</div>
+                        <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-sm relative overflow-hidden">
+                            <div className="flex justify-between items-center mb-10">
+                                <h2 className="text-lg font-bold">Candidate Pipeline</h2>
+                                <span className="text-xs font-bold text-slate-400">From 42 Total Submissions</span>
+                            </div>
+                            
+                            <div className="h-4 w-full flex rounded-full overflow-hidden bg-slate-100">
+                                <div className="bg-red-500" style={{ width: '64%' }}></div>
+                                <div className="bg-amber-400" style={{ width: '33%' }}></div>
+                                <div className="bg-emerald-500" style={{ width: '3%' }}></div>
+                            </div>
+                            
+                            <div className="flex justify-between mt-6">
+                                <div className="flex flex-col items-center border-t-2 border-red-500 pt-3" style={{width: '64%'}}>
+                                    <span className="text-2xl font-bold">{stats.candidatesRejected}</span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Rejected</span>
+                                </div>
+                                <div className="flex flex-col items-center border-t-2 border-amber-400 pt-3" style={{width: '33%'}}>
+                                    <span className="text-2xl font-bold">{stats.candidatesInProgress}</span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">In Progress</span>
+                                </div>
+                                <div className="flex flex-col items-center border-t-2 border-emerald-500 pt-3" style={{width: '3%'}}>
+                                    <span className="text-2xl font-bold">{stats.candidatesHired}</span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hired</span>
+                                </div>
                             </div>
                         </div>
 
                         {/* TABLE SECTION */}
-                        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                            <div className="p-6 border-b border-slate-100 bg-slate-50">
-                                <h2 className="font-bold text-slate-800 uppercase tracking-widest text-sm">Active Requisitions</h2>
+                        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+                            <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+                                <h2 className="font-bold text-slate-800 text-sm">Active Requisitions Overview</h2>
                             </div>
-                            <table className="w-full text-left">
-                                <thead className="bg-slate-50 text-slate-400 text-[10px] uppercase font-black tracking-widest">
-                                    <tr>
-                                        <th className="px-6 py-4 text-center w-24">ID</th>
-                                        <th className="px-6 py-4">Title & Location</th>
-                                        <th className="px-6 py-4 text-center">Candidates</th>
-                                        <th className="px-6 py-4 text-center">Hired</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-100">
-                                    {allReqs.map((req, i) => (
-                                        <tr key={i} className="hover:bg-slate-50 transition-colors">
-                                            <td className="px-6 py-4 text-center font-mono text-sm text-slate-400">{req.id}</td>
-                                            <td className="px-6 py-4">
-                                                <div className="font-bold text-slate-800">{req.title}</div>
-                                                <div className="text-xs text-slate-500">{req.location}</div>
-                                            </td>
-                                            <td className="px-6 py-4 text-center font-bold text-blue-600">{req.candidates}</td>
-                                            <td className="px-6 py-4 text-center font-bold text-emerald-600">{req.hired}</td>
+                            <div className="overflow-y-auto max-h-[400px] custom-scrollbar">
+                                <table className="w-full text-left">
+                                    <thead className="sticky top-0 bg-slate-50 shadow-sm z-10">
+                                        <tr className="text-slate-400 text-[10px] uppercase font-bold tracking-widest border-b border-slate-100">
+                                            <th className="px-6 py-4">Req ID</th>
+                                            <th className="px-6 py-4">Job Title & Location</th>
+                                            <th className="px-6 py-4 text-center">Candidates</th>
+                                            <th className="px-6 py-4 text-center">In Progress</th>
+                                            <th className="px-6 py-4 text-center">Rejected</th>
+                                            <th className="px-6 py-4 text-center">Hired</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-100">
+                                        {allReqs.map((req, i) => (
+                                            <tr key={i} className="hover:bg-slate-50 transition-colors">
+                                                <td className="px-6 py-4 font-bold text-sm text-slate-400">{req.id}</td>
+                                                <td className="px-6 py-4">
+                                                    <div className="font-bold text-sm text-slate-800">{req.title}</div>
+                                                    <div className="text-[10px] text-slate-400 flex items-center gap-1 mt-1">📍 {req.location}</div>
+                                                </td>
+                                                <td className="px-6 py-4 text-center">
+                                                    <span className="bg-slate-100 w-8 h-8 inline-flex items-center justify-center rounded-full text-xs font-bold text-slate-600">{req.candidates}</span>
+                                                </td>
+                                                <td className="px-6 py-4 text-center">
+                                                    <span className={`w-8 h-8 inline-flex items-center justify-center rounded-full text-xs font-bold ${req.inProgress > 0 ? 'bg-amber-50 text-amber-600' : 'text-slate-200'}`}>{req.inProgress}</span>
+                                                </td>
+                                                <td className="px-6 py-4 text-center">
+                                                    <span className={`w-8 h-8 inline-flex items-center justify-center rounded-full text-xs font-bold ${req.rejected > 0 ? 'bg-red-50 text-red-600' : 'text-slate-200'}`}>{req.rejected}</span>
+                                                </td>
+                                                <td className="px-6 py-4 text-center">
+                                                    <span className={`w-8 h-8 inline-flex items-center justify-center rounded-full text-xs font-bold ${req.hired > 0 ? 'bg-emerald-100 text-emerald-600' : 'text-slate-200'}`}>{req.hired}</span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </main>
                 </div>
