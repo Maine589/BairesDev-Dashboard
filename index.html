@@ -5,36 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partner Recruitment Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        /* Ensure table header sticks correctly in the preview */
-        .sticky-header { position: sticky; top: 0; z-index: 10; }
-    </style>
 </head>
 <body class="bg-slate-50">
     <div id="root"></div>
 
     <script type="text/babel">
-        // Initialize Icons
-        const { Briefcase, Users, UserX, UserCheck, Trophy, BarChart3, TrendingUp, Building2, MapPin } = lucide;
-
-        const KpiCard = ({ title, value, icon, bgColor, borderColor }) => (
-            <div className={`bg-white rounded-xl p-5 border shadow-sm relative overflow-hidden ${borderColor} group hover:shadow-md transition-shadow`}>
+        // Reusable KPI Card Component
+        const KpiCard = ({ title, value, colorClass, bgColor }) => (
+            <div className={`bg-white rounded-xl p-5 border border-slate-200 shadow-sm relative overflow-hidden group transition-all`}>
                 <div className="flex justify-between items-start">
                     <div>
                         <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">{title}</p>
                         <p className="text-3xl font-bold text-slate-800 mt-2">{value}</p>
                     </div>
-                    <div className={`p-3 rounded-lg ${bgColor}`}>
-                        <i data-lucide={icon}></i>
-                        {/* We use standard HTML icons since the React component is being rendered via Babel */}
-                        <div dangerouslySetInnerHTML={{ __html: icon }} />
+                    <div className={`p-3 rounded-lg ${bgColor} ${colorClass}`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                     </div>
                 </div>
-                <div className={`absolute -right-4 -bottom-4 w-16 h-16 rounded-full opacity-20 ${bgColor} group-hover:scale-150 transition-transform duration-500`}></div>
             </div>
         );
 
@@ -48,105 +38,84 @@
             };
 
             const allReqs = [
-                { id: '251083', title: 'Staff Full Stack Software Engineer...', profile: 'Software Development (IC4)', location: 'US-Texas-Austin', candidates: 4, inProgress: 0, rejected: 4, hired: 0 },
-                { id: '251090', title: 'Staff Software Engineer, Storage', profile: 'Software Development (IC4)', location: 'Hungary-Remote', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
-                { id: '251203', title: 'Staff Performance Engineer', profile: 'Software Development (IC4)', location: 'Hungary-Budapest', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
-                { id: '251251', title: 'Staff Software Engineer', profile: 'Software Development (IC4)', location: 'US-Texas-Austin', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
-                { id: '251252', title: 'Senior Software Engineer', profile: 'Software Development (IC3)', location: 'US-Texas-Austin', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
-                { id: '251276', title: 'Senior Staff Software Engineer - Control Plane', profile: 'Software Development (IC5)', location: 'US-Georgia-Remote', candidates: 2, inProgress: 2, rejected: 0, hired: 0 },
-                { id: '251367', title: 'Senior Software Engineer - Fullstack', profile: 'Software Development (IC3)', location: 'India-Bangalore', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
-                { id: '251368', title: 'Senior Staff Engineer', profile: 'Software Development (IC5)', location: 'US-California-Remote', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
-                { id: '251403', title: 'Senior Staff Software Engineer (Impala...)', profile: 'Software Development (IC5)', location: 'Hungary-Budapest', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
-                { id: '251445', title: 'Staff Software Engineer', profile: 'Software Development (IC4)', location: 'India-Bangalore', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
-                { id: '251460', title: 'Staff Full Stack Software Engineer, Machine Learning...', profile: 'Software Development (IC4)', location: 'Hungary-Budapest', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
-                { id: '251464', title: 'Senior Software Engineer - SDX...', profile: 'Software Development (IC3)', location: 'India-Bangalore', candidates: 2, inProgress: 1, rejected: 1, hired: 0 },
-                { id: '251469', title: 'Senior Software Engineer - Fullstack', profile: 'Software Development (IC3)', location: 'India-Bangalore', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
-                { id: '251474', title: 'Senior Software Engineer- Data Engineering', profile: 'Software Development (IC3)', location: 'Hungary-Remote', candidates: 2, inProgress: 1, rejected: 1, hired: 0 },
-                { id: '251482', title: 'Senior Software Engineer, NiFi', profile: 'Software Development (IC3)', location: 'Hungary-Budapest', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
-                { id: '251521', title: 'Software Engineer- II', profile: 'Software Development (IC2)', location: 'India-Bangalore', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
-                { id: '251529', title: 'Staff Software Engineer- Product Security...', profile: 'Software Development (IC4)', location: 'India-Bangalore', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
-                { id: '251531', title: 'Senior Staff Software Engineer- Production...', profile: 'Software Development (IC5)', location: 'India-Bangalore', candidates: 1, inProgress: 1, rejected: 0, hired: 0 },
-                { id: '251585', title: 'Staff Platform Engineer - Taikun & Kubernetes...', profile: 'Software Development (IC5)', location: 'Czech Republic-Prague', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
-                { id: '251587', title: 'Staff Platform Engineer - Taikun & Kubernetes...', profile: 'Software Development (IC4)', location: 'Czech Republic-Prague', candidates: 1, inProgress: 0, rejected: 1, hired: 0 },
-                { id: '251588', title: 'Staff Platform Engineer - Taikun & Kubernetes...', profile: 'Software Development (IC4)', location: 'Czech Republic-Prague', candidates: 4, inProgress: 3, rejected: 1, hired: 0 },
-                { id: '251589', title: 'Staff Platform Engineer - Taikun & Kubernetes...', profile: 'Software Development (IC4)', location: 'Czech Republic-Prague', candidates: 2, inProgress: 0, rejected: 2, hired: 0 },
-                { id: '260066', title: 'Staff Software Engineer, Operator', profile: 'Software Development (IC4)', location: 'Hungary-Remote', candidates: 8, inProgress: 0, rejected: 8, hired: 0 },
-                { id: '260163', title: 'Staff Software Engineer (Hive)', profile: 'Software Development (IC4)', location: 'Hungary-Remote', candidates: 10, inProgress: 1, rejected: 9, hired: 0 },
-                { id: '260165', title: 'Staff Software Engineer (Hive)', profile: 'Software Development (IC4)', location: 'Poland', candidates: 1, inProgress: 0, rejected: 0, hired: 1 },
+                { id: '251083', title: 'Staff Full Stack Software Engineer...', location: 'US-Texas-Austin', candidates: 4, inProgress: 0, rejected: 4, hired: 0 },
+                { id: '251090', title: 'Staff Software Engineer, Storage', location: 'Hungary-Remote', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
+                { id: '251203', title: 'Staff Performance Engineer', location: 'Hungary-Budapest', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
+                { id: '251251', title: 'Staff Software Engineer', location: 'US-Texas-Austin', candidates: 0, inProgress: 0, rejected: 0, hired: 0 },
+                { id: '251276', title: 'Senior Staff Software Engineer', location: 'US-Georgia-Remote', candidates: 2, inProgress: 2, rejected: 0, hired: 0 },
+                { id: '260165', title: 'Staff Software Engineer (Hive)', location: 'Poland', candidates: 1, inProgress: 0, rejected: 0, hired: 1 },
             ];
 
-            // Rendered icon helpers for the KPI cards
-            const icons = {
-                briefcase: <Briefcase className="w-5 h-5 text-indigo-600" />,
-                users: <Users className="w-5 h-5 text-blue-600" />,
-                userCheck: <UserCheck className="w-5 h-5 text-amber-600" />,
-                userX: <UserX className="w-5 h-5 text-red-600" />,
-                trophy: <Trophy className="w-5 h-5 text-emerald-600" />
-            };
-
             return (
-                <div className="min-h-screen pb-12">
+                <div className="min-h-screen pb-12 font-sans">
                     <header className="bg-white border-b border-slate-200 sticky top-0 z-20">
-                        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
                             <div className="flex items-center gap-3">
-                                <div className="bg-blue-600 p-2 rounded-lg"><BarChart3 className="w-6 h-6 text-white" /></div>
+                                <div className="bg-blue-600 p-2 rounded-lg text-white font-bold">BD</div>
                                 <div>
                                     <h1 className="text-xl font-bold text-slate-800">Partner Recruitment Portal</h1>
                                     <p className="text-sm text-slate-500">Cloudera & BairesDev</p>
                                 </div>
                             </div>
-                            <div className="text-sm text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full">Updated: March 2026</div>
+                            <div className="text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full uppercase">March 2026</div>
                         </div>
                     </header>
 
-                    <main className="max-w-7xl mx-auto px-4 mt-8 space-y-8">
+                    <main className="max-w-7xl mx-auto px-6 mt-8 space-y-8">
+                        {/* KPI Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                            <KpiCard title="Reqs Provided" value={stats.reqsProvided} icon={icons.briefcase} bgColor="bg-indigo-50" borderColor="border-indigo-100" />
-                            <KpiCard title="Submitted" value={stats.candidatesSubmitted} icon={icons.users} bgColor="bg-blue-50" borderColor="border-blue-100" />
-                            <KpiCard title="In Progress" value={stats.candidatesInProgress} icon={icons.userCheck} bgColor="bg-amber-50" borderColor="border-amber-100" />
-                            <KpiCard title="Rejected" value={stats.candidatesRejected} icon={icons.userX} bgColor="bg-red-50" borderColor="border-red-100" />
-                            <KpiCard title="Hired" value={stats.candidatesHired} icon={icons.trophy} bgColor="bg-emerald-50" borderColor="border-emerald-100" />
+                            <KpiCard title="Reqs Provided" value={stats.reqsProvided} colorClass="text-indigo-600" bgColor="bg-indigo-50" />
+                            <KpiCard title="Submitted" value={stats.candidatesSubmitted} colorClass="text-blue-600" bgColor="bg-blue-50" />
+                            <KpiCard title="In Progress" value={stats.candidatesInProgress} colorClass="text-amber-600" bgColor="bg-amber-50" />
+                            <KpiCard title="Rejected" value={stats.candidatesRejected} colorClass="text-red-600" bgColor="bg-red-50" />
+                            <KpiCard title="Hired" value={stats.candidatesHired} colorClass="text-emerald-600" bgColor="bg-emerald-50" />
                         </div>
 
-                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                            <h2 className="text-lg font-semibold text-slate-800 mb-6 flex items-center gap-2"><TrendingUp className="w-5 h-5 text-slate-400" />Candidate Pipeline</h2>
-                            <div className="h-10 w-full flex rounded-full overflow-hidden bg-slate-100">
-                                <div className="bg-red-500" style={{ width: `${(stats.candidatesRejected / stats.candidatesSubmitted) * 100}%` }}></div>
-                                <div className="bg-amber-400" style={{ width: `${(stats.candidatesInProgress / stats.candidatesSubmitted) * 100}%` }}></div>
-                                <div className="bg-emerald-500" style={{ width: `${(stats.candidatesHired / stats.candidatesSubmitted) * 100}%` }}></div>
+                        {/* Visual Pipeline */}
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+                            <h2 className="text-lg font-semibold text-slate-800 mb-6">Candidate Pipeline</h2>
+                            <div className="h-12 w-full flex rounded-full overflow-hidden bg-slate-100 shadow-inner">
+                                <div className="bg-red-500" style={{ width: '64%' }}></div>
+                                <div className="bg-amber-400" style={{ width: '33%' }}></div>
+                                <div className="bg-emerald-500" style={{ width: '3%' }}></div>
                             </div>
-                            <div className="flex justify-between mt-4 text-center text-xs font-bold uppercase tracking-tighter text-slate-500">
-                                <div style={{ width: '64%' }}>Rejected ({stats.candidatesRejected})</div>
-                                <div style={{ width: '33%' }}>In Progress ({stats.candidatesInProgress})</div>
-                                <div style={{ width: '3%' }}>Hired ({stats.candidatesHired})</div>
+                            <div className="flex justify-between mt-4 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                                <span>Rejected (64%)</span>
+                                <span>In Progress (33%)</span>
+                                <span>Hired (3%)</span>
                             </div>
                         </div>
 
+                        {/* Requisitions Table */}
                         <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                             <div className="px-6 py-5 border-b border-slate-200 bg-slate-50/50">
-                                <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2"><Building2 className="w-5 h-5 text-slate-400" />Active Requisitions</h2>
+                                <h2 className="text-lg font-semibold text-slate-800">Active Requisitions</h2>
                             </div>
-                            <div className="overflow-x-auto max-h-[500px]">
-                                <table className="w-full text-left">
-                                    <thead className="sticky top-0 bg-slate-50 shadow-sm z-10">
-                                        <tr className="text-slate-500 text-xs uppercase font-semibold">
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr className="text-slate-400 text-xs uppercase font-bold border-b border-slate-100">
                                             <th className="px-6 py-4">Req ID</th>
-                                            <th className="px-6 py-4">Job Title</th>
-                                            <th className="px-6 py-4 text-center">Candidates</th>
+                                            <th className="px-6 py-4">Job Title & Location</th>
+                                            <th className="px-6 py-4 text-center">Total</th>
                                             <th className="px-6 py-4 text-center">Hired</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-slate-100">
+                                    <tbody className="divide-y divide-slate-50">
                                         {allReqs.map((req, i) => (
-                                            <tr key={i} className="hover:bg-slate-50">
-                                                <td className="px-6 py-4 text-sm font-medium">{req.id}</td>
+                                            <tr key={i} className="hover:bg-slate-50 transition-colors">
+                                                <td className="px-6 py-4 text-sm font-mono font-bold text-slate-400">{req.id}</td>
                                                 <td className="px-6 py-4">
-                                                    <div className="text-sm font-semibold">{req.title}</div>
+                                                    <div className="text-sm font-semibold text-slate-800">{req.title}</div>
                                                     <div className="text-xs text-slate-500">{req.location}</div>
                                                 </td>
-                                                <td className="px-6 py-4 text-center text-sm">{req.candidates}</td>
                                                 <td className="px-6 py-4 text-center">
-                                                    <span className={`px-2 py-1 rounded text-xs font-bold ${req.hired > 0 ? 'bg-emerald-100 text-emerald-700' : 'text-slate-300'}`}>{req.hired}</span>
+                                                    <span className="bg-slate-100 px-2 py-1 rounded text-xs font-bold text-slate-600">{req.candidates}</span>
+                                                </td>
+                                                <td className="px-6 py-4 text-center">
+                                                    <span className={`px-2 py-1 rounded text-xs font-bold ${req.hired > 0 ? 'bg-emerald-100 text-emerald-700' : 'text-slate-200'}`}>
+                                                        {req.hired}
+                                                    </span>
                                                 </td>
                                             </tr>
                                         ))}
